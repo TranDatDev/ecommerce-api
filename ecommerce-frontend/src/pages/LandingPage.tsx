@@ -11,7 +11,10 @@ import {
   NavigationMenuViewport,
 } from "@/components/ui/navigation-menu";
 
+import LandingHero from "./LandingPage/LandingHero";
+import LandingNav from "./LandingPage/LandingNav";
 import { Button } from "@/components/ui/button";
+import LandingFooter from "./LandingPage/LandingFooter";
 const LandingPage: React.FC = () => {
   return (
     <div className="">
@@ -25,16 +28,18 @@ const LandingPage: React.FC = () => {
           </NavigationMenuItem>
         </NavigationMenuList>
       </NavigationMenu> */}
+      <LandingNav />
       <div>
         <h1 className="text-4xl">Newly</h1>
       </div>
 
-      <p>Đăng nhập để thực hiện</p>
-      <Button variant="default">
-        <Link to="/login">
+      <Link to="/login">
+        <Button variant="default">
           <p>Đăng nhập</p>
-        </Link>
-      </Button>
+        </Button>
+      </Link>
+      <LandingHero />
+      <LandingFooter />
     </div>
   );
 };
