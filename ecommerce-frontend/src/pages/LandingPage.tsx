@@ -15,10 +15,24 @@ import LandingHero from "./LandingPage/LandingHero";
 import LandingNav from "./LandingPage/LandingNav";
 import { Button } from "@/components/ui/button";
 import LandingFooter from "./LandingPage/LandingFooter";
+import { Helmet } from "react-helmet-async";
 const LandingPage: React.FC = () => {
   return (
-    <div className="">
-      {/* <NavigationMenu>
+    <>
+      <Helmet>
+        <title>Trang chủ - Ecommerce</title>
+        <meta
+          name="description"
+          content="Đây là trang chủ của website ecommerce."
+        />
+        <meta property="og:title" content="Trang chủ - Ecommerce" />
+        <meta
+          property="og:description"
+          content="Chào mừng bạn đến với cửa hàng trực tuyến của chúng tôi."
+        />
+      </Helmet>
+      <div>
+        {/* <NavigationMenu>
         <NavigationMenuList>
           <NavigationMenuItem>
             <NavigationMenuTrigger>Item One</NavigationMenuTrigger>
@@ -28,19 +42,20 @@ const LandingPage: React.FC = () => {
           </NavigationMenuItem>
         </NavigationMenuList>
       </NavigationMenu> */}
-      <LandingNav />
-      <div>
-        <h1 className="text-4xl">Newly</h1>
-      </div>
+        <LandingNav />
+        <div>
+          <h1 className="text-4xl">Newly</h1>
+        </div>
 
-      <Link to="/login">
-        <Button variant="default">
-          <p>Đăng nhập</p>
-        </Button>
-      </Link>
-      <LandingHero />
-      <LandingFooter />
-    </div>
+        <Link to="/login">
+          <Button variant="default">
+            <p>Đăng nhập</p>
+          </Button>
+        </Link>
+        <LandingHero />
+        <LandingFooter />
+      </div>
+    </>
   );
 };
 
