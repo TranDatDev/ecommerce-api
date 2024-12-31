@@ -14,8 +14,114 @@ datasource db {
 }
 
 model User {
+  id            Int       @id @default(autoincrement())
+  uuid          String    @unique @default(uuid())
+  email         String    @unique
+  password      String
+  name          String?
+  role          String      @default("USER")
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime?  @updatedAt
+  addresses     Address[] // Quan hệ 1-n với Address
+  orders        Order[]   // Quan hệ 1-n với Order
+  cartItems     Cart[]    // Quan hệ 1-n với Cart
+}
+
+model Seller {
+  id            Int       @id @default(autoincrement())
+  uuid          String    @unique @default(uuid())
+  email         String    @unique
+  password      String
+  name          String
+  shopName      String
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+  products      Product[] // Quan hệ 1-n với Product
+}
+
+model Admin {
+  id            Int       @id @default(autoincrement())
+  uuid          String    @unique @default(uuid())
+  email         String    @unique
+  password      String
+  name          String
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+}
+
+model Product {
+  id            Int       @id @default(autoincrement())
+  uuid          String    @unique @default(uuid())
+  title         String
+  description   String
+  price         Float
+  stock         Int
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+  sellerId      Int
+  seller        Seller    @relation(fields: [sellerId], references: [id])
+  categoryId    Int
+  category      Category  @relation(fields: [categoryId], references: [id])
+  orderItems    OrderItem[] // Quan hệ 1-n với OrderItem
+  carts         Cart[]    // Thêm quan hệ cart
+}
+
+model Order {
+  id          Int         @id @default(autoincrement())
+  uuid        String      @unique @default(uuid())
+  userId      Int
+  user        User        @relation(fields: [userId], references: [id])
+  orderItems  OrderItem[] // Quan hệ 1-n với OrderItem
+  totalAmount Float
+  payment     Payment?    @relation // Định nghĩa quan hệ 1-1 với Payment
+  status      String      @default("PENDING")
+  createdAt   DateTime    @default(now())
+  updatedAt   DateTime    @updatedAt
+}
+
+model OrderItem {
   id        Int      @id @default(autoincrement())
-  email     String   @unique
-  password  String
-  createdAt DateTime @default(now())
+  orderId   Int
+  order     Order    @relation(fields: [orderId], references: [id]) // Quan hệ 1-n với Order
+  productId Int
+  product   Product  @relation(fields: [productId], references: [id]) // Quan hệ 1-1 với Product
+  quantity  Int
+  price     Float
+}
+
+model Payment {
+  id          Int           @id @default(autoincrement())
+  uuid        String        @unique @default(uuid())
+  method      String        @default("CREDIT_CARD")
+  status      String        @default("PENDING")
+  orderId     Int           @unique
+  order       Order?        @relation(fields: [orderId], references: [id]) // Định nghĩa quan hệ 1-1 với Order
+  createdAt   DateTime      @default(now())
+}
+
+model Address {
+  id            Int       @id @default(autoincrement())
+  uuid          String    @unique @default(uuid())
+  street        String
+  city          String
+  state         String
+  postalCode    String
+  country       String
+  userId        Int
+  user          User      @relation(fields: [userId], references: [id])
+}
+
+model Category {
+  id            Int       @id @default(autoincrement())
+  name          String    @unique
+  products      Product[] // Quan hệ 1-n với Product
+}
+
+model Cart {
+  id            Int       @id @default(autoincrement())
+  userId        Int
+  user          User      @relation(fields: [userId], references: [id])
+  productId     Int
+  product       Product   @relation(fields: [productId], references: [id])
+  quantity      Int
 }
