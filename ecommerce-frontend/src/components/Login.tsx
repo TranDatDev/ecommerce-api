@@ -1,18 +1,20 @@
 import { useState } from "react";
 import authService from "../services/modules/authService";
 import { showToast, ToastType } from "../utils/toast";
-
+import { useNavigate } from "react-router";
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const navigate = useNavigate();
 
   const handleLogin = async () => {
     try {
       const response = await authService.login({ email, password });
-      console.log("Login successful:", response.data);
       showToast(ToastType.SUCCESS, "Đăng nhập thành công!");
+      const uuid = response.data.uuid;
+      navigate(`/dashboard/${uuid}`);
     } catch (error) {
-      console.error("Login failed:", error);
+      showToast(ToastType.ERROR, "Đăng nhập thất bại!");
     }
   };
 

@@ -8,7 +8,7 @@ export const dashboardRoutes: RouteObject[] = [
     element: <PrivateRoute />,
     children: [
       {
-        path: "/dashboard",
+        path: "/dashboard/:uuid",
         element: <DashboardPage />,
       },
     ],
