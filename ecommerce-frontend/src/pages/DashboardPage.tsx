@@ -5,12 +5,15 @@ import authService from "@/services/modules/authService";
 import { showToast, ToastType } from "../utils/toast";
 import { useParams } from "react-router";
 import { Helmet } from "react-helmet-async";
+import { useNavigate } from "react-router";
 const DashboardPage: React.FC = () => {
+  const navigate = useNavigate();
   const handleLogout = async () => {
     try {
       const response = await authService.logout();
       console.log("Logout successful:", response);
       showToast(ToastType.SUCCESS, "Đăng xuất thành công!");
+      navigate("/");
     } catch (error) {
       console.error("Logout failed:", error);
       showToast(ToastType.ERROR, "Đăng xuất thất bại!");

@@ -1,4 +1,12 @@
 import axiosInstance from "../api/axiosInstance";
+import { jwtDecode } from "jwt-decode";
+
+interface JwtPayload {
+  id: string;
+  email: string;
+  role: string;
+  uuid: string;
+}
 
 interface AuthData {
   email: string;
@@ -12,8 +20,8 @@ const authService = {
     // Kiểm tra và lưu token, uuid vào localStorage
     if (response.data && response.data.token) {
       const token = response.data.token;
-      const uuid = response.data.uuid;
-      // Lưu token, uuid vào localStorage
+      const decoded = jwtDecode<JwtPayload>(token);
+      const uuid = decoded.uuid;
       localStorage.setItem("authToken", token);
       localStorage.setItem("authUuid", uuid);
       // Cập nhật Authorization header cho các request sau
@@ -30,7 +38,6 @@ const authService = {
   logout: async () => {
     // Xóa token khỏi localStorage và header
     localStorage.removeItem("authToken");
-    localStorage.removeItem("authUuid");
     delete axiosInstance.defaults.headers.Authorization;
 
     return true;
