@@ -16,6 +16,7 @@ import LandingNav from "./LandingPage/LandingNav";
 import { Button } from "@/components/ui/button";
 import LandingFooter from "./LandingPage/LandingFooter";
 import { Helmet } from "react-helmet-async";
+import ProductList from "./LandingPage/ProductList";
 const LandingPage: React.FC = () => {
   return (
     <>
@@ -42,19 +43,22 @@ const LandingPage: React.FC = () => {
           </NavigationMenuItem>
         </NavigationMenuList>
       </NavigationMenu> */}
-        <LandingNav />
-        <div>
-          <h1 className="text-4xl">Newly</h1>
+        <div className="flex container mx-auto p-5 justify-between items-center">
+          <div>
+            <h1 className="text-4xl">Newly</h1>
+          </div>
+          <LandingNav />
+          <Link to="/login">
+            <Button variant="default">
+              <p>Đăng nhập</p>
+            </Button>
+          </Link>
         </div>
 
-        <Link to="/login">
-          <Button variant="default">
-            <p>Đăng nhập</p>
-          </Button>
-        </Link>
         <LandingHero />
-        <LandingFooter />
       </div>
+      <ProductList />
+      <LandingFooter />
     </>
   );
 };
